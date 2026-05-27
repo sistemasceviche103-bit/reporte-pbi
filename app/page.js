@@ -83,7 +83,7 @@ export default function Page() {
       <div className={styles.iframeWrap}>
         <iframe
           title="Reporte_300326"
-          src="https://app.powerbi.com/reportEmbed?reportId=ddeeb514-3f3e-4dfb-9063-b91d5c20361f&autoAuth=true&ctid=5aaddd47-b495-4c1f-b1ec-240fe9a9cac3"
+          src="https://app.powerbi.com/view?r=eyJrIjoiMmNiZDMyNmUtMzJiNS00NWQ2LWEyNGItODg3OTgxMGZhZWIyIiwidCI6IjVhYWRkZDQ3LWI0OTUtNGMxZi1iMWVjLTI0MGZlOWE5Y2FjMyJ9"
           frameBorder="0"
           allowFullScreen
           className={styles.iframe}
