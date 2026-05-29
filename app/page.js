@@ -3,25 +3,34 @@
 import { useState, useEffect } from 'react'
 import styles from './page.module.css'
 
-const PASSWORD = 'Grupo@Ceviche'
+const REPORTS = {
+  'Grupo@Ceviche': 'https://app.powerbi.com/view?r=eyJrIjoiMmNiZDMyNmUtMzJiNS00NWQ2LWEyNGItODg3OTgxMGZhZWIyIiwidCI6IjVhYWRkZDQ3LWI0OTUtNGMxZi1iMWVjLTI0MGZlOWE5Y2FjMyJ9',
+  'fidel@ceviche': 'https://app.powerbi.com/view?r=eyJrIjoiNzIxNTI5YjgtNWVjOC00YzQ3LTgyOWYtZGM1M2M3MmFiNjk2IiwidCI6IjVhYWRkZDQ3LWI0OTUtNGMxZi1iMWVjLTI0MGZlOWE5Y2FjMyJ9',
+}
 const SESSION_KEY = 'gc_report_auth'
+const SESSION_URL = 'gc_report_url'
 
 export default function Page() {
   const [authenticated, setAuthenticated] = useState(false)
+  const [reportUrl, setReportUrl] = useState('')
   const [input, setInput] = useState('')
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const stored = sessionStorage.getItem(SESSION_KEY)
-    if (stored === '1') setAuthenticated(true)
+    const url = sessionStorage.getItem(SESSION_URL)
+    if (stored === '1' && url) { setAuthenticated(true); setReportUrl(url) }
     setLoading(false)
   }, [])
 
   function handleLogin(e) {
     e.preventDefault()
-    if (input === PASSWORD) {
+    const url = REPORTS[input]
+    if (url) {
       sessionStorage.setItem(SESSION_KEY, '1')
+      sessionStorage.setItem(SESSION_URL, url)
+      setReportUrl(url)
       setAuthenticated(true)
       setError(false)
     } else {
@@ -32,7 +41,9 @@ export default function Page() {
 
   function handleLogout() {
     sessionStorage.removeItem(SESSION_KEY)
+    sessionStorage.removeItem(SESSION_URL)
     setAuthenticated(false)
+    setReportUrl('')
     setInput('')
   }
 
@@ -82,8 +93,8 @@ export default function Page() {
       </header>
       <div className={styles.iframeWrap}>
         <iframe
-          title="Reporte_300326"
-          src="https://app.powerbi.com/view?r=eyJrIjoiMmNiZDMyNmUtMzJiNS00NWQ2LWEyNGItODg3OTgxMGZhZWIyIiwidCI6IjVhYWRkZDQ3LWI0OTUtNGMxZi1iMWVjLTI0MGZlOWE5Y2FjMyJ9"
+          title="Reporte"
+          src={reportUrl}
           frameBorder="0"
           allowFullScreen
           className={styles.iframe}
